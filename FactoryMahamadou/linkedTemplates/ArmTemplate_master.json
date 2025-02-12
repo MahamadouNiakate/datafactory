@@ -1,0 +1,63 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Nom de fabrique de données",
+			"defaultValue": "FactoryMahamadou"
+		},
+		"DatalakePrincipal_accountKey": {
+			"type": "secureString",
+			"metadata": "Chaîne sécurisée pour « accountKey » de « DatalakePrincipal »"
+		},
+		"workspace_activity_connectionString": {
+			"type": "secureString",
+			"metadata": "Chaîne sécurisée pour « connectionString » de « workspace_activity »"
+		},
+		"DatalakePrincipal_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://datalakeprincipal600.dfs.core.windows.net/"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI pour le compte de stockage contenant des modèles ARM liés"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Jeton SAS pour le compte de stockage contenant des modèles ARM liés"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "FactoryMahamadou_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"DatalakePrincipal_accountKey": {
+						"value": "[parameters('DatalakePrincipal_accountKey')]"
+					},
+					"workspace_activity_connectionString": {
+						"value": "[parameters('workspace_activity_connectionString')]"
+					},
+					"DatalakePrincipal_properties_typeProperties_url": {
+						"value": "[parameters('DatalakePrincipal_properties_typeProperties_url')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
